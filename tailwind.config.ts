@@ -1,20 +1,34 @@
 import type { Config } from 'tailwindcss'
+import typography from '@tailwindcss/typography'
 
-const config: Config = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+export default {
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './posts/**/*.mdx'],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        sans: ['var(--font-geist-sans)'],
+        mono: ['var(--font-geist-mono)'],
+      },
+      typography: {
+        quoteless: {
+          css: {
+            'blockquote p:first-of-type::before': { content: 'none' },
+            'blockquote p:first-of-type::after': { content: 'none' },
+          },
+        },
+      },
+      colors: {
+        'baekjoon-bronze': '#AD5600',
+        'baekjoon-silver': '#435F7A',
+        'baekjoon-gold': '#EB9A01',
+        'baekjoon-platinum': '#27E2A3',
+        'baekjoon-diamond': '#00B4FC',
+        'baekjoon-ruby': '#FF0061',
       },
     },
   },
-  plugins: [],
-}
-export default config
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  plugins: [typography],
+} satisfies Config
