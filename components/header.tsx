@@ -2,21 +2,28 @@
 
 import clsx from 'clsx'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation'
+
+const links = [
+  {
+    name: 'home',
+    href: '/',
+    segment: null,
+  },
+  {
+    name: 'post',
+    href: '/post',
+    segment: 'post',
+  },
+  {
+    name: 'algorithm',
+    href: '/algorithm',
+    segment: 'algorithm',
+  },
+]
 
 export function Header() {
-  const pathname = usePathname()
-
-  const links = [
-    {
-      name: 'home',
-      href: '/',
-    },
-    {
-      name: 'algorithm',
-      href: '/algorithm',
-    },
-  ]
+  const segment = useSelectedLayoutSegment()
 
   return (
     <header className='mb-10 space-x-4'>
@@ -24,7 +31,7 @@ export function Header() {
         <Link
           key={link.name}
           href={link.href}
-          className={clsx(pathname === link.href && 'underline underline-offset-4')}
+          className={clsx(segment === link.segment && 'underline underline-offset-4')}
         >
           {link.name}
         </Link>

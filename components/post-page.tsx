@@ -2,46 +2,20 @@
 
 import { Tier } from '@/types/types'
 import clsx from 'clsx'
-import { allAlgorithms } from 'contentlayer/generated'
+import { allPosts } from 'contentlayer/generated'
 import Link from 'next/link'
 import { useState } from 'react'
 import { BaekjoonTierBadge, tiers } from './baekjoon'
 import { formatDate } from '@/utils/format-date'
 
-export default function AlgorithmPage() {
-  const [tier, setTier] = useState<Tier>('all')
+export function PostPage() {
   const [value, setValue] = useState('')
 
-  const filteredAlgorithms =
-    tier === 'all'
-      ? allAlgorithms.filter((algorithm) => algorithm.title.toLowerCase().includes(value.toLowerCase()))
-      : allAlgorithms.filter(
-          (algorithm) => algorithm.tier === tier && algorithm.title.toLowerCase().includes(value.toLowerCase())
-        )
+  const filteredPosts = allPosts.filter((post) => post.title.toLowerCase().includes(value.toLowerCase()))
 
   return (
     <div className='space-y-10'>
       <div className='space-y-4'>
-        <div className='flex items-center gap-2'>
-          <select
-            value={tier}
-            onChange={(e) => setTier(e.target.value as Tier)}
-            className='bg-slate-100 p-2 rounded text-sm'
-          >
-            {tiers.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
-          <BaekjoonTierBadge
-            key={tier}
-            tier={tier}
-            className={clsx('text-xs text-white rounded px-3 font-bold py-1 capitalize shadow hover:bg-opacity-100')}
-          >
-            {tier}
-          </BaekjoonTierBadge>
-        </div>
         <div className='relative h-10 border rounded max-w-[20rem]'>
           <input
             value={value}
@@ -67,28 +41,22 @@ export default function AlgorithmPage() {
         </div>
       </div>
       <div className='space-y-2 sm:space-y-0'>
-        {filteredAlgorithms.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <p className='text-sm'>검색 결과가 없습니다.</p>
         ) : (
-          filteredAlgorithms
+          filteredPosts
             .sort((a, b) => Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt)))
-            .map((algorithm) => (
+            .map((post) => (
               <Link
-                key={algorithm.path}
+                key={post.path}
                 className='flex flex-col py-2 pl-2 rounded hover:bg-slate-100 transition-colors duration-100 h-full'
-                href={`/${algorithm.path}`}
+                href={`/${post.path}`}
               >
                 <div className='w-full flex flex-col gap-2 sm:flex-row sm:items-center'>
-                  <BaekjoonTierBadge
-                    tier={algorithm.tier}
-                    className='text-xs text-white rounded px-1.5 font-bold py-0.5 capitalize shadow w-fit'
-                  >
-                    {algorithm.tier.slice(0, 1)}
-                  </BaekjoonTierBadge>
-                  <p className='text-neutral-900 dark:text-neutral-100 tracking-tight text-lg'>{algorithm.title}</p>
+                  <p className='text-neutral-900 dark:text-neutral-100 tracking-tight text-lg'>{post.title}</p>
                 </div>
                 <span className='text-sm text-neutral-500 dark:text-neutral-200 tracking-tight'>
-                  {formatDate(algorithm.publishedAt)}
+                  {formatDate(post.publishedAt)}
                 </span>
               </Link>
             ))

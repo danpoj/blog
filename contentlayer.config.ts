@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm'
 
 export const Algorithm = defineDocumentType(() => ({
   name: 'Algorithm',
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `**/algorithm/*.mdx`,
   contentType: 'mdx',
   fields: {
     title: {
@@ -31,17 +31,53 @@ export const Algorithm = defineDocumentType(() => ({
     },
   },
   computedFields: {
-    url: { type: 'string', resolve: (post) => `/algorithms/${post._raw.flattenedPath}` },
-    slug: {
+    path: {
       type: 'string',
       resolve: (post) => post._raw.flattenedPath,
+    },
+    slug: {
+      type: 'string',
+      resolve: (post) => post._raw.sourceFileName.slice(0, -4),
+    },
+  },
+}))
+
+export const Post = defineDocumentType(() => ({
+  name: 'Post',
+  filePathPattern: `**/post/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    title: {
+      type: 'string',
+      required: true,
+    },
+    publishedAt: {
+      type: 'string',
+      required: true,
+    },
+    summary: {
+      type: 'string',
+      required: true,
+    },
+    image: {
+      type: 'string',
+    },
+  },
+  computedFields: {
+    path: {
+      type: 'string',
+      resolve: (post) => post._raw.flattenedPath,
+    },
+    slug: {
+      type: 'string',
+      resolve: (post) => post._raw.sourceFileName.slice(0, -4),
     },
   },
 }))
 
 export default makeSource({
-  contentDirPath: 'algorithms',
-  documentTypes: [Algorithm],
+  contentDirPath: 'contents',
+  documentTypes: [Algorithm, Post],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
