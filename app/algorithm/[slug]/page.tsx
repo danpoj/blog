@@ -14,14 +14,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     return
   }
 
-  const { title, publishedAt: publishedTime, summary: description, slug } = algorithm
+  const { title, publishedAt: publishedTime, slug } = algorithm
 
   return {
-    title,
-    description,
+    title: `백준 ${title} Javascript / Nodejs`,
+    description: `[백준 자바스크립트 Javascript nodejs] ${title}`,
     openGraph: {
-      title,
-      description,
+      title: `백준 ${title} Javascript / Nodejs`,
+      description: `[백준 자바스크립트 Javascript nodejs] ${title}`,
       type: 'article',
       publishedTime,
 
@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
+      title: `백준 ${title} Javascript / Nodejs`,
+      description: `[백준 자바스크립트 Javascript nodejs] ${title}`,
       images: [`https://danpoj.pages.dev/opengraph-image.png`],
     },
   }

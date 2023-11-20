@@ -17,10 +17,6 @@ export const Algorithm = defineDocumentType(() => ({
       type: 'string',
       required: true,
     },
-    summary: {
-      type: 'string',
-      required: true,
-    },
     tier: {
       type: 'enum',
       options: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'ruby'],
