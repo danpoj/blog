@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function Page() {
   return (
     <div className='space-y-4'>
@@ -31,6 +33,21 @@ export default function Page() {
         >
           resume
         </a>
+      </div>
+
+      <div className='aspect-video bg-gradient-to-r from from-black via-black/90 to-black/80 pt-4 pb-8 px-6 flex flex-col justify-between rounded-lg max-w-[36rem]'>
+        <span className='text-8xl sm:text-9xl text-white font-bold'>D</span>
+        <div className='flex items-center gap-4'>
+          <Image
+            unoptimized
+            src='https://avatars.githubusercontent.com/u/88086373?v=4'
+            alt='my profile avatar'
+            width={60}
+            height={60}
+            className='rounded-lg'
+          />
+          <span className='text-white font-black text-2xl'>DanpoJ</span>
+        </div>
       </div>
     </div>
   )

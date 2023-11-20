@@ -1,12 +1,9 @@
 import { PostPage } from '@/components/post-page'
-import { formatDate } from '@/utils/format-date'
-import { allPosts } from 'contentlayer/generated'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Algorithm',
-  description: 'Baekjoon online judge algorithm solutions.',
+  title: 'Post',
+  description: '블로그 모든 게시글',
 }
 
 export default function Page() {

@@ -21,9 +21,6 @@ export const Algorithm = defineDocumentType(() => ({
       type: 'string',
       required: true,
     },
-    image: {
-      type: 'string',
-    },
     tier: {
       type: 'enum',
       options: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'ruby'],
@@ -58,9 +55,6 @@ export const Post = defineDocumentType(() => ({
     summary: {
       type: 'string',
       required: true,
-    },
-    image: {
-      type: 'string',
     },
   },
   computedFields: {

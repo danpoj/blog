@@ -13,9 +13,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     return
   }
 
-  const { title, publishedAt: publishedTime, summary: description, image, slug } = algorithm
-  // TODO: 내 주소로 바꾸기
-  const ogImage = image ? `https://leerob.io${image}` : `https://leerob.io/og?title=${title}`
+  const { title, publishedAt: publishedTime, summary: description, slug } = algorithm
 
   return {
     title,
@@ -25,11 +23,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description,
       type: 'article',
       publishedTime,
-      // TODO: 내 주소로 바꾸기
-      url: `https://leerob.io/blog/${slug}`,
+
+      url: `https://danpoj.pages.dev/algorithm/${slug}`,
       images: [
         {
-          url: ogImage,
+          url: `https://danpoj.pages.dev/opengraph-image.png`,
         },
       ],
     },
@@ -37,7 +35,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       card: 'summary_large_image',
       title,
       description,
-      images: [ogImage],
+      images: [`https://danpoj.pages.dev/opengraph-image.png`],
     },
   }
 }

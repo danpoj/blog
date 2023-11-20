@@ -1,17 +1,46 @@
 import clsx from 'clsx'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
-
 import type { Metadata } from 'next'
 import './globals.css'
 import { Header } from '@/components/header'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://danpoj.pages.dev'),
   title: {
-    default: 'Home | DanpoJ',
+    default: 'DanpoJ',
     template: '%s | DanpoJ',
   },
-  metadataBase: new URL('localhost:3000'),
+  description: 'FE Developer DanpoJ Blog',
+  openGraph: {
+    title: 'DanpoJ',
+    description: 'FE Developer DanpoJ Blog',
+    url: 'https://danpoj.pages.dev',
+    siteName: 'DanpoJ',
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  twitter: {
+    title: 'DanpoJ',
+    card: 'summary_large_image',
+  },
+  icons: [
+    {
+      url: '/favicon.svg',
+      href: '/favicon.svg',
+    },
+  ],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
