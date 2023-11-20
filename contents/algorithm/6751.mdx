@@ -1,0 +1,30 @@
+---
+title: 6751 - From 1987 to 2013
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[6751 - From 1987 to 2013](https://www.acmicpc.net/problem/6751)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let num = +fs.readFileSync(path).toString().trim()
+
+num++
+
+while (true) {
+  let str = num.toString()
+
+  let isDistinct = str.length === new Set(str).size
+
+  if (isDistinct) {
+    break
+  }
+
+  num++
+}
+
+console.log(num)
+```

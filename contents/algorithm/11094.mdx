@@ -1,0 +1,24 @@
+---
+title: 11094 - 꿍 가라사대
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[11094 - 꿍 가라사대](https://www.acmicpc.net/problem/11094)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [n, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+for (const str of arr) {
+  if (str.startsWith('Simon says')) {
+    result.push(str.slice(10))
+  }
+}
+
+console.log(result.join('\n'))
+```

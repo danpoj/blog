@@ -1,0 +1,46 @@
+---
+title: 4581 - Voting
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[4581 - Voting](https://www.acmicpc.net/problem/4581)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let arr = fs.readFileSync(path).toString().trim().split('\n')
+
+arr.pop()
+
+const result = []
+
+for (const str of arr) {
+  const temp = {
+    Y: 0,
+    N: 0,
+    A: 0,
+    P: 0,
+  }
+
+  for (const c of str) {
+    temp[c]++
+  }
+
+  if (temp.A >= str.length / 2) {
+    result.push('need quorum')
+    continue
+  }
+
+  if (temp.N === temp.Y) {
+    result.push('tie')
+  } else if (temp.N > temp.Y) {
+    result.push('no')
+  } else {
+    result.push('yes')
+  }
+}
+
+console.log(result.join('\n'))
+```

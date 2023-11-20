@@ -1,0 +1,31 @@
+---
+title: 30684 - 모르고리즘 회장 정하기
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[30684 - 모르고리즘 회장 정하기](https://www.acmicpc.net/problem/30684)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [n, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+let result = ''
+
+for (const str of arr) {
+  if (str.length !== 3) continue
+
+  if (result === '') {
+    result = str
+    continue
+  }
+
+  if (result > str) {
+    result = str
+  }
+}
+
+console.log(result)
+```
