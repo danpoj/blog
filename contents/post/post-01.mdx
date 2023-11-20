@@ -1,7 +1,41 @@
 ---
-title: first post
-summary: hello world im summary
-publishedAt: '2023-11-15'
+title: Today I Learned - 2023-11-20
+summary: 2023/11/20 - TIL
+publishedAt: '2023-11-20'
+article: til
 ---
 
-Laborum culpa ea dolor esse id.Laborum culpa ea dolor esse id.Laborum culpa ea dolor esse id.Laborum culpa ea dolor esse id.Laborum culpa ea dolor esse id.
+# Today I Learned
+
+---
+
+- [the uphill battle of memoization - Tkdodo](https://tkdodo.eu/blog/the-uphill-battle-of-memoization)
+- [before you memo - Dan abramov](https://overreacted.io/before-you-memo/)
+- [optimize react re renders - Kent C. Dodds](https://kentcdodds.com/blog/optimize-react-re-renders)
+
+React에서 memoization의 best practice는 무엇인가?
+
+<Callout emoji='✔️'>`React.memo`는, `props`를 `Object.js`로 체크하여 리렌더링 여부를 결정한다.</Callout>
+
+하지만 `Object,js`는 `primitive(number, boolean, string ...)` 값만 체크해 줄 수 있다는 문제가 있다. `props`로 넘겨준 `function, array, object`는 렌더링마다 새로운 값으로 인식되어 `React.memo`로 리렌더링을 막을 수 없다. 물론 `function, array, object`의 값도 `useMemo, useCallback`으로 memoization하여 `props`로 넘겨주면 리렌더링을 막아주지만, 이는 코드의 복잡성을 높일 뿐이다.
+
+<ProsCard
+  title='그렇다면 어떻게 memoization 해야하는가?'
+  pros={[
+    '컴포넌트 구조를 다시 짜봐야한다 e.g. state를 자식으로 내리기, expensive component를 부모로 올리고  children 사용하기',
+    '컴포넌트 구조 변경으로도 한계가 있다면, memo와 함께 useCallback, useMemo를 쓴다',
+    'state manager를 사용한다. e.g. zustand, mobx, recoil...',
+  ]}
+/>
+
+> `Object.js` vs `===`
+
+```js title="javascript"
+console.log(Object.is(NaN, NaN)) // true
+console.log(Object.is(+0, -0)) // false
+
+console.log(NaN === NaN) // false
+console.log(+0 === -0) // true
+
+// 위의 예시를 제외하면, 나머지 결과는 동일하다.
+```

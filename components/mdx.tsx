@@ -37,7 +37,7 @@ function Callout(props: any) {
 function ProsCard({ title, pros }: any) {
   return (
     <div className='border border-emerald-200 dark:border-emerald-900 bg-neutral-50 dark:bg-neutral-900 rounded-xl p-6 my-4 w-full'>
-      <span>{`You might use ${title} if...`}</span>
+      <span>{title}</span>
       <div className='mt-4'>
         {pros.map((pro: any) => (
           <div key={pro} className='flex font-medium items-baseline mb-2'>
@@ -60,7 +60,7 @@ function ProsCard({ title, pros }: any) {
 function ConsCard({ title, cons }: any) {
   return (
     <div className='border border-red-200 dark:border-red-900 bg-neutral-50 dark:bg-neutral-900 rounded-xl p-6 my-6 w-full'>
-      <span>{`You might not use ${title} if...`}</span>
+      <span>{title}</span>
       <div className='mt-4'>
         {cons.map((con: any) => (
           <div key={con} className='flex font-medium items-baseline mb-2'>

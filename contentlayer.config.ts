@@ -52,6 +52,11 @@ export const Post = defineDocumentType(() => ({
       type: 'string',
       required: true,
     },
+    article: {
+      type: 'enum',
+      options: ['til', 'etc'],
+      required: true,
+    },
   },
   computedFields: {
     path: {
