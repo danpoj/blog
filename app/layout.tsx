@@ -41,6 +41,9 @@ export const metadata: Metadata = {
       href: '/favicon.svg',
     },
   ],
+  verification: {
+    google: 'H2mJCdgJT7XLZoim4PlGfnDLKsbtoFo3BgaTv9inG2A',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
