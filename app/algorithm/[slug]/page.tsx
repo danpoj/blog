@@ -42,6 +42,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
+export async function generateStaticParams({ params }: { params: { slug: string } }) {
+  return allAlgorithms.map((algorithm) => ({
+    slug: algorithm.slug,
+  }))
+}
+
 export default function Page({ params }: { params: { slug: string } }) {
   const algorithm = allAlgorithms.find((post) => post.slug === params.slug)
 

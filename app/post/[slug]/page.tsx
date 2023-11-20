@@ -42,6 +42,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
+export async function generateStaticParams({ params }: { params: { slug: string } }) {
+  return allPosts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+
 export default function Page({ params }: { params: { slug: string } }) {
   const post = allPosts.find((post) => post.slug === params.slug)
 
