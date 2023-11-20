@@ -3,7 +3,7 @@ import Image from 'next/image'
 export default function Page() {
   return (
     <div className='space-y-4'>
-      <h1 className='font-medium text-2xl mb-8 tracking-tighter'>Home</h1>
+      <h1 className='font-medium text-2xl mb-8 tracking-tighter'>홈</h1>
       <h2 className='text-sm'>
         안녕하세요 👋 <br /> Web Front-End 개발자 장원석입니다
       </h2>

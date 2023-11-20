@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <section>
-      <h1 className='font-medium text-2xl mb-8 tracking-tighter'>Algorithm</h1>
+      <h1 className='font-medium text-2xl mb-8 tracking-tighter'>알고리즘</h1>
       <AlgorithmPage />
     </section>
   )

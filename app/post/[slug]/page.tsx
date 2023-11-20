@@ -1,3 +1,4 @@
+import GoBack from '@/components/go-back'
 import { Mdx } from '@/components/mdx'
 import { formatDate } from '@/utils/format-date'
 import { allPosts } from 'contentlayer/generated'
@@ -53,6 +54,8 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <section>
+      <GoBack href='/post'>돌아가기</GoBack>
+
       <h1 className='font-medium text-2xl tracking-tighter'>
         <Balancer>{post.title}</Balancer>
       </h1>
