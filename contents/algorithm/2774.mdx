@@ -1,0 +1,24 @@
+---
+title: 2774 - 아름다운 수
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2774 - 아름다운 수](https://www.acmicpc.net/problem/2774)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [t, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+for (const str of arr) {
+  const size = new Set(str).size
+
+  result.push(size)
+}
+
+console.log(result.join('\n'))
+```

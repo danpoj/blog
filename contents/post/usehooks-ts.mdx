@@ -1,0 +1,120 @@
+---
+title: DRAFT - usehooks-ts
+summary: react typescript custom hook library인 usehooks-ts 써보기
+publishedAt: '2023-11-21'
+article: etc
+---
+
+---
+
+# DRAFT
+
+## links
+
+- [usehooks-ts docs](https://usehooks-ts.com/)
+- [usehooks-ts github repository](https://github.com/juliencrn/usehooks-ts)
+- [usehooks-ts npm](https://www.npmjs.com/package/usehooks-ts)
+
+## useToggle
+
+```ts title="code"
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+
+/**
+ *    value: boolean 값
+ *    setValue: custom logic 만들기
+ *    toggle: value를 true / false 토글
+ */
+
+export function useToggle(defaultValue?: boolean): [boolean, () => void, Dispatch<SetStateAction<boolean>>] {
+  const [value, setValue] = useState(!!defaultValue)
+
+  const toggle = useCallback(() => setValue((x) => !x), [])
+
+  return [value, toggle, setValue]
+}
+```
+
+## useBoolean
+
+```ts title="code"
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+
+/**   useToggle hook에서 setTrue, setFalse만 추가한 훅
+ *
+ *    value: boolean 값
+ *    setValue: custom logic 만들기
+ *    setTrue: value를 true로 설정
+ *    setFalse: value를 false로 설정
+ *    toggle: value를 true / false 토글
+ */
+
+interface UseBooleanOutput {
+  value: boolean
+  setValue: Dispatch<SetStateAction<boolean>>
+  setTrue: () => void
+  setFalse: () => void
+  toggle: () => void
+}
+
+export function useBoolean(defaultValue?: boolean): UseBooleanOutput {
+  const [value, setValue] = useState(!!defaultValue)
+
+  const setTrue = useCallback(() => setValue(true), [])
+  const setFalse = useCallback(() => setValue(false), [])
+  const toggle = useCallback(() => setValue((x) => !x), [])
+
+  return { value, setValue, setTrue, setFalse, toggle }
+}
+```
+
+## useDebounce
+
+```ts title="code"
+import { useEffect, useState } from 'react'
+
+export function useDebounce<T>(value: T, delay?: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay || 500)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [value, delay])
+
+  return debouncedValue
+}
+```
+
+## useCopyToClipboard
+
+```ts title="code"
+import { useState } from 'react'
+
+type CopyFn = (text: string) => Promise<boolean>
+
+export function useCopyToClipboard(): [CopiedValue, CopyFn] {
+  const [copiedText, setCopiedText] = useState<CopiedValue>(null)
+
+  const copy: CopyFn = async (text) => {
+    if (!navigator?.clipboard) {
+      console.warn('Clipboard not supported')
+      return false
+    }
+
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopiedText(text)
+      return true
+    } catch (error) {
+      console.warn('Copy failed', error)
+      setCopiedText(null)
+      return false
+    }
+  }
+
+  return [copiedText, copy]
+}
+```

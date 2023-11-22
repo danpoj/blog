@@ -1,0 +1,44 @@
+---
+title: 2520 - 팬케이크 사랑
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2520 - 팬케이크 사랑](https://www.acmicpc.net/problem/2520)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [t, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+arr = arr.filter((s) => s !== '')
+
+const result = []
+
+for (let i = 0; i < arr.length; i += 2) {
+  let [a, b, c, d, e] = arr[i].split(' ').map((s) => +s * 16)
+  let [x, y, z, p] = arr[i + 1].split(' ').map((s) => +s)
+
+  a = floor(a / 8)
+  b = floor(b / 8)
+  c = floor(c / 4)
+  e = floor(e / 9)
+
+  const dough = Math.min(a, b, c, d, e)
+
+  y = floor(y / 30)
+  z = floor(z / 25)
+  p = floor(p / 10)
+
+  const cake = x + y + z + p
+
+  dough <= cake ? result.push(dough) : result.push(cake)
+}
+
+console.log(result.join('\n'))
+
+function floor(num) {
+  return Math.floor(num)
+}
+```

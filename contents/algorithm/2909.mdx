@@ -1,0 +1,25 @@
+---
+title: 2909 - 캔디 구매
+publishedAt: '2023-11-21'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2909 - 캔디 구매](https://www.acmicpc.net/problem/2909)</Callout>
+
+```js title="Javascript"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [c, k] = fs
+  .readFileSync(path)
+  .toString()
+  .trim()
+  .split(' ')
+  .map((s) => +s)
+
+const x = Number('1' + '0'.repeat(k))
+
+const result = Math.round(c / x) * x
+
+console.log(result)
+```

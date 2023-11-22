@@ -81,6 +81,7 @@ export default makeSource({
         rehypePrettyCode,
         {
           theme: 'one-dark-pro',
+
           onVisitLine(node: any) {
             if (node.children.length === 0) {
               node.children = [{ type: 'text', value: ' ' }]
