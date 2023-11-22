@@ -1,0 +1,27 @@
+---
+title: 2399 - 거리의 합
+publishedAt: '2023-11-23'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2399 - 거리의 합](https://www.acmicpc.net/problem/2399)</Callout>
+
+```js title="solution 1"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [n, arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+arr = arr
+  .split(' ')
+  .map((s) => +s)
+  .sort((a, b) => a - b)
+
+let result = 0n
+
+arr.forEach((num, index) => {
+  result += BigInt(num) * BigInt(2 * index - n + 1)
+})
+
+console.log(String(result * BigInt(2)))
+```

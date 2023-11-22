@@ -1,0 +1,36 @@
+---
+title: 2231 - 분해합
+publishedAt: '2023-11-23'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2231 - 분해합](https://www.acmicpc.net/problem/2231)</Callout>
+
+```js title="solution 1"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let n = +fs.readFileSync(path).toString().trim()
+
+let result = 0
+
+let len = String(n).split('').length
+
+for (let i = n - 9 * len; i <= n; i++) {
+  if (i <= 0) continue
+
+  const target =
+    i +
+    i
+      .toString()
+      .split('')
+      .reduce((prev, cur) => prev + Number(cur), 0)
+
+  if (target === n) {
+    result = i
+    break
+  }
+}
+
+console.log(result)
+```

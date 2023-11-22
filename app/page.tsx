@@ -3,8 +3,6 @@ import Image from 'next/image'
 export default function Page() {
   return (
     <div className='space-y-4'>
-      <h1 className='font-medium text-2xl mb-8 tracking-tighter'>홈</h1>
-
       <div className='aspect-video bg-gradient-to-r from from-black via-black/90 to-black/80 pt-4 pb-8 px-6 flex flex-col justify-between rounded-lg max-w-[28rem]'>
         <div className='text-white tracking-tight space-y-2'>
           <p>danpoj123@gmail.com</p>

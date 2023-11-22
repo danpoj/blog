@@ -1,0 +1,42 @@
+---
+title: 2154 - 수 이어 쓰기 3
+publishedAt: '2023-11-23'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2154 - 수 이어 쓰기 3](https://www.acmicpc.net/problem/2154)</Callout>
+
+```js title="solution 1"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let target = fs.readFileSync(path).toString().trim()
+
+let str = ''
+
+for (let i = 1; i <= +target; i++) {
+  str += String(i)
+}
+
+for (let i = 0; i < str.length; i++) {
+  if (str.startsWith(target, i)) {
+    console.log(i + 1)
+    break
+  }
+}
+```
+
+```js title="solution 2"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let target = fs.readFileSync(path).toString().trim()
+
+let str = ''
+
+for (let i = 1; i <= +target; i++) {
+  str += String(i)
+}
+
+console.log(str.indexOf(target) + 1)
+```
