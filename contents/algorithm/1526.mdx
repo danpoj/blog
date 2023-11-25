@@ -1,0 +1,25 @@
+---
+title: 1526 - 가장 큰 금민수
+publishedAt: '2023-11-24'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[1526 - 가장 큰 금민수](https://www.acmicpc.net/problem/1526)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+const n = +fs.readFileSync(path).toString().trim()
+
+for (let i = n; i >= 0; i--) {
+  let str = i.toString().split('')
+
+  const isOk = str.every((c) => c === '4' || c === '7')
+
+  if (isOk) {
+    console.log(i)
+    break
+  }
+}
+```

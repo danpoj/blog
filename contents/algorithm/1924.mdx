@@ -1,0 +1,31 @@
+---
+title: 1924 - 2007년
+publishedAt: '2023-11-25'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[1924 - 2007년](https://www.acmicpc.net/problem/1924)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [month, day] = fs
+  .readFileSync(path)
+  .toString()
+  .trim()
+  .split(' ')
+  .map((s) => +s)
+
+let days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+let dp = [0]
+let months = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+
+days.forEach((day, index) => {
+  dp[index + 1] = dp[index] + days[index]
+})
+
+const diff = dp[month - 1] + day - 1
+
+console.log(months[diff % 7])
+```

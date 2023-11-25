@@ -1,0 +1,37 @@
+---
+title: 2775 - 부녀회장이 될테야
+publishedAt: '2023-11-25'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2775 - 부녀회장이 될테야](https://www.acmicpc.net/problem/2775)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [t, ...arr] = fs
+  .readFileSync(path)
+  .toString()
+  .trim()
+  .split('\n')
+  .map((s) => +s)
+
+let result = []
+
+for (let i = 0; i < 2 * t; i += 2) {
+  let [k, n] = [arr[i], arr[i + 1]]
+
+  let dp = Array.from({ length: n }, (_, i) => i + 1)
+
+  for (let i = 0; i < k; i++) {
+    for (let j = 1; j < n; j++) {
+      dp[j] += dp[j - 1]
+    }
+  }
+
+  result.push(dp[n - 1])
+}
+
+console.log(result.join('\n'))
+```

@@ -1,0 +1,22 @@
+---
+title: 1834 - 나머지와 몫이 같은 수
+publishedAt: '2023-11-24'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[1834 - 나머지와 몫이 같은 수](https://www.acmicpc.net/problem/1834)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let num = +fs.readFileSync(path).toString().trim()
+
+num = BigInt(num)
+
+// 등차수열의 합
+
+const res = (((num - 1n) * num) / 2n) * (num + 1n)
+
+console.log(res.toString())
+```

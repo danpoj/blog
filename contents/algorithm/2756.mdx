@@ -1,0 +1,61 @@
+---
+title: 2756 - 다트
+publishedAt: '2023-11-23'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2756 - 다트](https://www.acmicpc.net/problem/2756)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+const distance = (x, y) => {
+  x = Number(x)
+  y = Number(y)
+
+  return Math.sqrt(x ** 2 + y ** 2)
+}
+
+function score(n) {
+  if (n <= 3) return 100
+  else if (n <= 6) return 80
+  else if (n <= 9) return 60
+  else if (n <= 12) return 40
+  else if (n <= 15) return 20
+  else return 0
+}
+
+const [n, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+for (let str of arr) {
+  const [el_x, el_y] = [str.split(' ').slice(0, 6), str.split(' ').slice(6)]
+
+  let scoreSumX = 0
+  let scoreSumY = 0
+
+  for (let i = 0; i < el_x.length; i += 2) {
+    const d = distance(el_x[i], el_x[i + 1])
+    const s = score(d)
+
+    scoreSumX += s
+  }
+
+  for (let i = 0; i < el_y.length; i += 2) {
+    const d = distance(el_y[i], el_y[i + 1])
+    const s = score(d)
+
+    scoreSumY += s
+  }
+
+  result.push(
+    `SCORE: ${scoreSumX} to ${scoreSumY}, ${
+      scoreSumX === scoreSumY ? 'TIE' : scoreSumX > scoreSumY ? 'PLAYER 1 WINS' : 'PLAYER 2 WINS'
+    }.`
+  )
+}
+
+console.log(result.join('\n'))
+```

@@ -1,0 +1,34 @@
+---
+title: 3778 - 애너그램 거리
+publishedAt: '2023-11-23'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[3778 - 애너그램 거리](https://www.acmicpc.net/problem/3778)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+const [n, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+for (let i = 0; i < 2 * n; i += 2) {
+  const [a, b] = [arr[i], arr[i + 1]]
+
+  const words = Array.from({ length: 26 }, () => 0)
+
+  for (const c of a) {
+    words[c.codePointAt(0) - 'a'.codePointAt(0)]++
+  }
+
+  for (const c of b) {
+    words[c.codePointAt(0) - 'a'.codePointAt(0)]--
+  }
+
+  result.push(`Case #${i / 2 + 1}: ${words.reduce((prev, cur) => prev + Math.abs(cur), 0)}`)
+}
+
+console.log(result.join('\n'))
+```

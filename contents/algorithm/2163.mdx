@@ -1,0 +1,34 @@
+---
+title: 2163 - 초콜릿 자르기
+publishedAt: '2023-11-25'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2163 - 초콜릿 자르기](https://www.acmicpc.net/problem/2163)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [a, b] = fs
+  .readFileSync(path)
+  .toString()
+  .trim()
+  .split(' ')
+  .map((s) => +s)
+
+const max = Math.max(a, b)
+const min = Math.min(a, b)
+
+if (max === 1 && min === 1) {
+  console.log(0)
+  return
+}
+
+if (min === 1) {
+  console.log(max - 1)
+  return
+}
+
+console.log(max - 1 + max * (min - 1))
+```

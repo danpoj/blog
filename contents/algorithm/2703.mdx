@@ -1,0 +1,30 @@
+---
+title: 2703 - Cryptoquote
+publishedAt: '2023-11-23'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2703 - Cryptoquote](https://www.acmicpc.net/problem/2703)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+const [n, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+for (let i = 0; i < 2 * n; i += 2) {
+  let [message, rule] = [arr[i].split(''), arr[i + 1]]
+
+  message = message.map((m) => {
+    if (m === ' ') return m
+
+    return rule[m.charCodeAt(0) - 'A'.charCodeAt(0)]
+  })
+
+  result.push(message.join(''))
+}
+
+console.log(result.join('\n'))
+```
