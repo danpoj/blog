@@ -1,0 +1,430 @@
+---
+title: Next.js internationalization (i18n) 적용하기
+summary: Next.js의 i18n을 적용하는 과정을 알아봅시다.
+publishedAt: '2023-11-26'
+article: etc
+---
+
+<iframe src='https://giphy.com/embed/kMmkMxnfb4Q4wKtjqI' width='240' height='240' class='giphy-embed' allowFullScreen />
+<p>
+  <a href='https://giphy.com/gifs/Tolgee-i18n-internationalization-numeronym-kMmkMxnfb4Q4wKtjqI'>via GIPHY</a>
+</p>
+
+---
+
+# Internationalization (i18n)
+
+사용자의 언어에 맞는 웹페이지를 제공하기 위해서는 **i18n**이 필요합니다.
+
+[데모 웹페이지](https://i18n-next13.vercel.app/)를 만들며 **i18n**을 [next.js](https://nextjs.org/)에 적용하는 방법을 알아봅시다.
+
+<Callout emoji='💡'>Internationalization에서 i 와 n 사이에 18글자가 있다하여 i18n이라고 부른다고합니다 </Callout>
+
+## 1. 프로젝트 세팅
+
+next.js 프로젝트를 만들고 개발서버를 실행합니다.
+
+```bash
+npx create-next-app@latest
+
+✔ What is your project named? … i18n
+✔ Would you like to use TypeScript? … Yes
+✔ Would you like to use ESLint? … Yes
+✔ Would you like to use Tailwind CSS? … Yes
+✔ Would you like to use `src/` directory? … No
+✔ Would you like to use App Router? (recommended) … Yes
+? Would you like to customize the default import alias (@/*)? › No
+
+cd i18n
+npm run dev
+```
+
+기존 boilerplate는 제거하고 아래와 같이 두 파일을 수정합니다.
+
+```css title="app/globals.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+```tsx title="app/page.tsx"
+export default function Page() {
+  return <div>home</div>
+}
+```
+
+유저의 locale 정보를 가져오기 위해 **최상위 root**에 `middleware.ts` 파일을 만듭니다.
+
+```ts title="middleware.ts"
+import { NextRequest } from 'next/server'
+
+export const middleware = (request: NextRequest) => {
+  const { pathname } = request.nextUrl
+
+  console.log(pathname)
+}
+```
+
+웹페이지를 새로고침한 후, 터미널에서 `console.log(pathname)`의 결과를 확인해봅시다.
+
+```bash title="console.log(pathname)"
+/
+/_next/static/chunks/webpack.js
+/_next/static/css/app/layout.css
+/_next/static/chunks/main-app.js
+/_next/static/chunks/app-pages-internals.js
+/_next/static/chunks/webpack.js
+/_next/static/chunks/app-pages-internals.js
+/_next/static/chunks/main-app.js
+/_next/static/css/app/layout.css
+```
+
+위와 같이, `middleware`함수는 기본적으로 모든 request가 실행되기 전에 실행됩니다. `/`와 같이 route를 제외한 request의 경우에는 middleware가 실행되지 않도록 아래와 같이 `config`를 추가합니다.
+
+```ts title="middleware.ts"
+import { NextRequest } from 'next/server'
+
+export const middleware = (request: NextRequest) => {
+  const { pathname } = request.nextUrl
+
+  console.log(pathname)
+}
+
+// 파일 이름에 .이 들어간 경우, api로 시작하는 경우 middleware를 실행하지 않겠다는 설정입니다.
+export const config = { matcher: ['/((?!.*/.|api).*)'] }
+```
+
+다시 `console.log(pathname)`의 결과를 확인해보면 `/`의 경우에만 `middleware`가 실행되는 걸 확인 할 수 있습니다.
+
+<Callout emoji='💡'>
+  자세한 내용은 [next.js docs - middleware
+  matcher](https://nextjs.org/docs/pages/building-your-application/routing/middleware#matcher) 확인하세요.
+</Callout>
+
+```bash title="console.log(pathname)"
+/
+```
+
+기본 설정은 끝났습니다. 이제 아래의 절차가 남았습니다.
+
+- 지원하는 언어별로 텍스트를 미리 설정합니다.
+- 유저의 locale을 가져옵니다.
+- 한국인 사용자가 `/`에 접속한 경우 `/ko`로 redirect 해야합니다.
+- 한국인 사용자가 `/posts/123`에 접속한 경우 `/ko/posts/123`로 redirect 해야합니다.
+
+## 2. 지원하는 언어별로 텍스트 설정하기
+
+`dictionary`폴더를 만들고 그 안에 `json` 파일들을 만듭니다.
+
+```json title="dictionary/cs.json (체코어)"
+{
+  "welcome": "Vítejte",
+  "counter": {
+    "increment": "Přidat",
+    "decrement": "Ubrat"
+  }
+}
+```
+
+```json title="dictionary/de.json (독일어)"
+{
+  "welcome": "Vítejte",
+  "counter": {
+    "increment": "Přidat",
+    "decrement": "Ubrat"
+  }
+}
+```
+
+```json title="dictionary/en.json (영어)"
+{
+  "welcome": "Vítejte",
+  "counter": {
+    "increment": "Přidat",
+    "decrement": "Ubrat"
+  }
+}
+```
+
+```json title="dictionary/ko.json (한국어)"
+{
+  "welcome": "Vítejte",
+  "counter": {
+    "increment": "Přidat",
+    "decrement": "Ubrat"
+  }
+}
+```
+
+그 다음으로 아래의 파일을 추가합니다.
+
+```ts title="config/i18n.ts"
+export const i18n = {
+  defaultLocale: 'en',
+  locales: ['en', 'de', 'cs', 'ko'],
+} as const
+
+// "en" | "de" | "cs" | "ko"
+export type Locale = (typeof i18n.locales)[number]
+```
+
+`locale`값을 넣어주면 위에서 만든 `json` 데이터를 반환 해 주는 `get-dictionary.ts` 파일을 만듭니다.
+
+```ts title="lib/get-dictionary.ts"
+import { Locale } from '@/config/i18n'
+
+const dictionaries = {
+  en: () => import('@/dictionary/en.json').then((module) => module.default),
+  de: () => import('@/dictionary/de.json').then((module) => module.default),
+  cs: () => import('@/dictionary/cs.json').then((module) => module.default),
+  ko: () => import('@/dictionary/ko.json').then((module) => module.default),
+}
+
+export const getDictionary = (locale: Locale) => {
+  return dictionaries[locale]?.() ?? dictionaries.en()
+}
+```
+
+그 다음 라우터 구조를 수정해야합니다.
+
+`app` 폴더에 `[lang]` 폴더를 만든 후, `[lang]` 폴더 안으로 `globals.css` `layout.tsx` `page.tsx`를 옮겨줍니다.
+
+`page.tsx`는 아래와 같이 수정해줍니다.
+
+```ts title="app/[lang]/page.tsx"
+import type { Locale } from '@/config/i18n'
+import { getDictionary } from '@/lib/get-dictionary'
+
+export default async function Page({ params: { lang } }: { params: { lang: Locale } }) {
+  const dictionary = await getDictionary(lang)
+
+  return (
+    <div className='h-screen flex flex-col gap-4 items-center justify-center'>
+      <h1>{dictionary.welcome}</h1>
+
+      <div className='flex space-x-4'>
+        <button className='border px-4 py-2 bg-black text-white rounded'>{dictionary.counter.increment}</button>
+        <button className='border px-4 py-2 bg-black text-white rounded'>{dictionary.counter.decrement}</button>
+      </div>
+    </div>
+  )
+}
+```
+
+이제 페이지별로 아래와 같이 다른 언어가 보이게 됩니다.
+
+- `/ko`로 들어온 경우 한국어
+- `/en`로 들어온 경우 영어
+- `/de`로 들어온 경우 독일어
+- `/cs`로 들어온 경우 체코어
+
+<Callout emoji='✋'>
+  `/` 에 접근 한 경우 페이지 없음 404 에러가 발생합니다.
+  <br /> `/`에 접근 한 경우 사용자의 locale에 따라 redirect 시켜주는 로직을 만들어봅시다.
+</Callout>
+
+## 3. 사용자 locale을 가져와 redirect 시켜주기
+
+사용자의 locale은 `request header의 accept-language`를 통해 가져올 수 있습니다.
+
+`middleware.ts` 파일로 이동합니다.
+
+```ts title="middleware.ts"
+import { NextRequest } from 'next/server'
+
+export const middleware = (request: NextRequest) => {
+  const { pathname } = request.nextUrl
+
+  // ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+  console.log(request.headers.get('accept-language'))
+}
+
+export const config = { matcher: ['/((?!.*/.|api).*)'] }
+```
+
+터미널에서 콘솔 결과를 확인해보세요. 거주 지역에 따라 자동으로 locale 값들이 설정되어 있습니다. `accept-language`결과에 우리 웹페이지가 지원하는 언어가 있다면 그 언어를 `return`해주고, `accept-language`결과에 우리 웹페이지가 지원하지 않는 언어들만 있다면 디폴트값으로 `en (영어)`를 반환해주는 함수를 만들어봅시다.
+
+먼저 필요한 패키지를 설치해줍니다.
+
+```bash
+npm i @formatjs/intl-localematcher negotiator
+npm i -D @types/negotiator
+```
+
+```ts title="lib/get-locale.ts"
+import { i18n } from '@/config/i18n'
+import { match } from '@formatjs/intl-localematcher'
+import Negotiator from 'negotiator'
+
+import { NextRequest } from 'next/server'
+
+export const getLocale = (request: NextRequest) => {
+  const headers: Record<string, string> = {}
+
+  // request.headers의 값을 copy합니다.
+  request.headers.forEach((value, key) => {
+    headers[key] = value
+  })
+
+  // i18n.locales에 정의해둔 언어들에 포함된 accept-language 값들만 배열로 추출합니다.
+  // https://www.npmjs.com/package/negotiator 에서 자세한 내용 확인
+  // @ts-ignore
+  const locales = new Negotiator({ headers: headers }).languages(i18n.locales)
+
+  // locales가 빈 배열이 아닌 경우 사용자의 locale을 반환합니다.
+  // locales가 빈 배열인 경우 defaultLocale을 반환합니다.
+  // https://formatjs.io/docs/polyfills/intl-localematcher/ 에서 자세한 내용 확인
+  const locale = match(locales, i18n.locales, i18n.defaultLocale)
+
+  return locale
+}
+```
+
+이제 `middleware.ts`에서 `getLocale` 함수를 불러서 결과를 확인해보세요.
+
+```ts title="middleware.ts"
+import { NextRequest } from 'next/server'
+
+export const middleware = (request: NextRequest) => {
+  const locale = getLocale(request)
+  const { pathname } = request.nextUrl
+
+  // 저의 경우 한국에 거주 중 이므로 'ko'가 출력됩니다.
+  console.log(locale)
+}
+
+export const config = { matcher: ['/((?!.*/.|api).*)'] }
+```
+
+이제 남은 로직은 다음과 같습니다.
+
+- 주소에 `/ko /en /cs /de`가 있는 경우에는 넘어간다.
+- `/`에 접속한 경우 `/ko`로 redirect 한다.
+- `/post/123`에 접속한 경우 `/ko/post/123`으로 redirect 한다.
+
+```ts title="middleware.ts"
+import { NextRequest, NextResponse } from 'next/server'
+import { i18n } from './config/i18n'
+import { getLocale } from './lib/get-locale'
+
+export const middleware = (request: NextRequest) => {
+  const locale = getLocale(request)
+  const { pathname } = request.nextUrl
+
+  // 주소가 ko, en, cs, de로 시작하는 경우 true
+  const isLocalePathname = i18n.locales.some((loc) => pathname.startsWith(`/${loc}`))
+
+  // 이미 locale이 적용된 주소이므로 middleware chain을 끝낸다.
+  if (isLocalePathname) return NextResponse.next()
+
+  // /post/123으로 접속하면 locale은 'ko', pathname은 /post/123이다.
+  // `/${locale}${pathname}`의 결과는 `/ko/post/123`이 된다.
+  return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url))
+}
+
+export const config = { matcher: ['/((?!.*/.|api).*)'] }
+```
+
+## 4. locale 네비게이션 만들기
+
+locale을 변경해주는 네비게이션 컴포넌트를 아래와 같이 만든다.
+
+```tsx title="components/locale-switcher.tsx"
+'use client'
+
+import { Locale, i18n } from '@/config/i18n'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+export default function LocaleSwitcher() {
+  const pathname = usePathname()
+
+  const getPathnameWithLocale = (locale: Locale) => {
+    const path = pathname.split('/')
+    path[1] = locale
+
+    return path.join('/')
+  }
+
+  return (
+    <div className='flex gap-2'>
+      {i18n.locales.map((locale) => (
+        <Link href={getPathnameWithLocale(locale)} key={locale} className='text-white bg-black px-3 py-1 rounded'>
+          {locale}
+        </Link>
+      ))}
+    </div>
+  )
+}
+```
+
+`page.tsx`에 추가해준다.
+
+```tsx title="app/[lang]/page.tsx"
+import LocaleSwitcher from '@/components/locale-switcher'
+import type { Locale } from '@/config/i18n'
+import { getDictionary } from '@/lib/get-dictionary'
+
+export default async function Page({ params: { lang } }: { params: { lang: Locale } }) {
+  const dictionary = await getDictionary(lang)
+
+  return (
+    <div className='h-screen flex flex-col gap-4 items-center justify-center'>
+      <LocaleSwitcher />
+      <h1>{dictionary.welcome}</h1>
+
+      {...}
+    </div>
+  )
+}
+```
+
+이제 [데모 페이지](https://i18n-next13.vercel.app/ko)를 완성했습니다!
+
+## 5. 추가 내용 (SSG)
+
+페이지별로 [static site generation](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation)를 적용하고 싶은 경우 `layout.tsx`파일에 `generateStaticParams`을 다음과 같이 추가하세요.
+
+```tsx title="app/[lang]/layout.tsx"
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { i18n } from '@/config/i18n'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const generateStaticParams = () => {
+  return i18n.locales.map((locale) => ({
+    lang: locale,
+  }))
+}
+
+export const metadata: Metadata = {
+  title: 'i18n',
+  description: 'How to do i18n in Next.js 13+ within app directory',
+}
+
+export default function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: string } }) {
+  return (
+    <html lang={params.lang}>
+      <body className={inter.className}>{children}</body>
+    </html>
+  )
+}
+```
+
+이제 빌드 결과물을 확인해봅시다.
+
+```bash
+npm run build
+```
+
+<img alt={'static site generation build result'} src={'/posts/i18n/build-result.png'} width={768} height={416} />
+
+`/[lang]` 이 SSG로 빌드된 결과를 확인 할 수 있습니다.
+
+---
+
+next.js의 i18n에 대한 자세한 내용은 아래에서 확인하세요.
+
+- [https://nextjs.org/docs/app/building-your-application/routing/internationalization](https://nextjs.org/docs/app/building-your-application/routing/internationalization)
