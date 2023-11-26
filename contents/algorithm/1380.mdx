@@ -1,0 +1,46 @@
+---
+title: 1380 - 귀걸이
+publishedAt: '2023-11-26'
+tier: 'silver'
+---
+
+<Callout emoji='✔️'>[1380 - 귀걸이](https://www.acmicpc.net/problem/1380)</Callout>
+
+```js title="solution"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let input = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+let scenario = 1
+
+while (true) {
+  if (input[0] === '0') break
+
+  const arr = input.splice(0, +input[0] * 3)
+  const length = +arr.splice(0, 1)
+  const names = arr.splice(0, length)
+
+  const obj = {}
+
+  arr.forEach((value) => {
+    const [num, alpha] = value.split(' ')
+
+    if (obj[num] === undefined) {
+      obj[num] = true
+    } else {
+      delete obj[num]
+    }
+  })
+
+  const studentNumber = +Object.keys(obj)[0]
+
+  result.push(`${scenario} ${names[studentNumber - 1]}`)
+
+  scenario++
+}
+
+console.log(result.join('\n'))
+```

@@ -1,0 +1,146 @@
+---
+title: 4562-4435-4619-4740-6322
+publishedAt: '2023-11-26'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[4562 - No Brainer](https://www.acmicpc.net/problem/4562)</Callout>
+
+```js title="4562 - No Brainer"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [n, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+const result = []
+
+for (const str of arr) {
+  const [a, b] = str.split(' ').map((s) => +s)
+
+  if (b <= a) {
+    result.push('MMM BRAINS')
+  } else {
+    result.push('NO BRAINS')
+  }
+}
+
+console.log(result.join('\n'))
+```
+
+<Callout emoji='✔️'>[4435 - 중간계 전쟁](https://www.acmicpc.net/problem/4435)</Callout>
+
+```js title="4435 - 중간계 전쟁"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let [t, ...arr] = fs.readFileSync(path).toString().trim().split('\n')
+
+let num1 = [1, 2, 3, 3, 4, 10]
+let num2 = [1, 2, 2, 2, 3, 5, 10]
+let result = []
+
+for (let i = 0; i < 2 * t; i += 2) {
+  let sum1 = arr[i]
+    .split(' ')
+    .map((s, index) => +s * num1[index])
+    .reduce((prev, cur) => prev + cur)
+  let sum2 = arr[i + 1]
+    .split(' ')
+    .map((s, index) => +s * num2[index])
+    .reduce((prev, cur) => prev + cur)
+
+  result.push(
+    `Battle ${parseInt(i / 2) + 1}: ${
+      sum1 > sum2
+        ? 'Good triumphs over Evil'
+        : sum1 < sum2
+        ? 'Evil eradicates all trace of Good'
+        : 'No victor on this battle field'
+    }`
+  )
+}
+
+console.log(result.join('\n'))
+```
+
+<Callout emoji='✔️'>[4619 - 루트](https://www.acmicpc.net/problem/4619)</Callout>
+
+```js title="4619 - 루트"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+const arr = fs.readFileSync(path).toString().trim().split('\n')
+
+arr.pop()
+
+let result = []
+
+for (const str of arr) {
+  const [b, n] = str.split(' ').map((s) => +s)
+
+  let mid = Math.floor(Math.pow(b, 1 / n))
+  let num1 = Math.abs(b - Math.pow(mid + 1, n))
+  let num2 = Math.abs(b - Math.pow(mid, n))
+
+  if (num1 > num2) {
+    result.push(mid)
+  } else {
+    result.push(mid + 1)
+  }
+}
+
+console.log(result.join('\n'))
+```
+
+<Callout emoji='✔️'>[4740 - 거울, 오! 거울](https://www.acmicpc.net/problem/4740)</Callout>
+
+```js title="4740 - 거울, 오! 거울"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let arr = fs.readFileSync(path).toString().trim().split('\n')
+
+arr.pop()
+
+arr = arr.map((str) => str.split('').reverse().join(''))
+
+console.log(arr.join('\n'))
+```
+
+<Callout emoji='✔️'>[6322 - 직각 삼각형의 두 변](https://www.acmicpc.net/problem/6322)</Callout>
+
+```js title="6322 - 직각 삼각형의 두 변"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let arr = fs.readFileSync(path).toString().trim().split('\n')
+
+arr.pop()
+
+let result = []
+let i = 1
+
+for (const str of arr) {
+  const [a, b, c] = str.split(' ').map((s) => +s)
+
+  if (a === -1) {
+    const ok = c > b
+
+    result.push(`Triangle #${i}\n${ok ? `a = ${Math.sqrt(c ** 2 - b ** 2).toFixed(3)}` : `Impossible.`}`)
+  } else if (b === -1) {
+    const ok = c > a
+
+    result.push(`Triangle #${i}\n${ok ? `b = ${Math.sqrt(c ** 2 - a ** 2).toFixed(3)}` : `Impossible.`}`)
+  } else if (c === -1) {
+    if (Math.sqrt(a ** 2 + b ** 2) > 10000) {
+      result.push(`Triangle #${i}\nImpossible.`)
+    } else {
+      result.push(`Triangle #${i}\nc = ${Math.sqrt(a ** 2 + b ** 2).toFixed(3)}`)
+    }
+  }
+
+  i++
+}
+
+console.log(result.join('\n\n'))
+```
