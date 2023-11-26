@@ -280,7 +280,7 @@ export const getLocale = (request: NextRequest) => {
 }
 ```
 
-이제 `middleware.ts`에서 `getLocale` 함수를 불러서 결과를 확인해보세요.
+`middleware.ts`에서 `getLocale` 함수를 불러서 결과를 확인해보세요.
 
 ```ts title="middleware.ts"
 import { NextRequest } from 'next/server'
@@ -327,7 +327,7 @@ export const config = { matcher: ['/((?!.*/.|api).*)'] }
 
 ## 4. locale 네비게이션 만들기
 
-locale을 변경해주는 네비게이션 컴포넌트를 아래와 같이 만든다.
+locale을 변경해주는 네비게이션 컴포넌트를 아래와 같이 만들어줍니다.
 
 ```tsx title="components/locale-switcher.tsx"
 'use client'
@@ -379,7 +379,7 @@ export default async function Page({ params: { lang } }: { params: { lang: Local
 }
 ```
 
-이제 [데모 페이지](https://i18n-next13.vercel.app/ko)를 완성했습니다!
+여기까지 따라왔다면 [데모 페이지](https://i18n-next13.vercel.app/ko)와 같은 화면을 볼 수 있습니다.
 
 ## 5. 추가 내용 (SSG)
 
@@ -413,7 +413,7 @@ export default function RootLayout({ children, params }: { children: React.React
 }
 ```
 
-이제 빌드 결과물을 확인해봅시다.
+빌드 결과물을 확인해봅시다.
 
 ```bash
 npm run build
