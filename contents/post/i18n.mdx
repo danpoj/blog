@@ -5,7 +5,13 @@ publishedAt: '2023-11-26'
 article: etc
 ---
 
-<iframe src='https://giphy.com/embed/kMmkMxnfb4Q4wKtjqI' width='240' height='240' class='giphy-embed' allowFullScreen />
+<iframe
+  src='https://giphy.com/embed/kMmkMxnfb4Q4wKtjqI'
+  width='240'
+  height='240'
+  className='giphy-embed'
+  allowFullScreen
+/>
 <p>
   <a href='https://giphy.com/gifs/Tolgee-i18n-internationalization-numeronym-kMmkMxnfb4Q4wKtjqI'>via GIPHY</a>
 </p>
@@ -199,7 +205,7 @@ export const getDictionary = (locale: Locale) => {
 
 `page.tsx`는 아래와 같이 수정해줍니다.
 
-```ts title="app/[lang]/page.tsx"
+```tsx title="app/[lang]/page.tsx"
 import type { Locale } from '@/config/i18n'
 import { getDictionary } from '@/lib/get-dictionary'
 
@@ -427,7 +433,7 @@ export default function RootLayout({ children, params }: { children: React.React
 npm run build
 ```
 
-<img alt={'static site generation build result'} src={'/posts/i18n/build-result.png'} width={768} height={416} />
+<Image alt={'static site generation build result'} src={'/posts/i18n/build-result.png'} width={768} height={416} />
 
 `/[lang]` 이 SSG로 빌드된 결과를 확인 할 수 있습니다.
 

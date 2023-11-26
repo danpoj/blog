@@ -22,7 +22,7 @@ const CustomLink = (props: any) => {
 }
 
 function RoundedImage(props: any) {
-  return <Image alt={props.alt} className='rounded-lg' {...props} />
+  return <Image unoptimized alt={props.alt} className='rounded-lg' {...props} />
 }
 
 function Callout(props: any) {
