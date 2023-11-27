@@ -1,0 +1,101 @@
+---
+title: 2783-27160-
+publishedAt: '2023-11-27'
+tier: 'bronze'
+---
+
+<Callout emoji='✔️'>[2783 - 삼각 김밥](https://www.acmicpc.net/problem/2783)</Callout>
+
+```js title="2783 - 삼각 김밥"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let arr = fs.readFileSync(path).toString().trim().split('\n')
+
+let min = 1000000
+
+arr = [arr[0], ...arr.slice(2)]
+
+for (const str of arr) {
+  const [x, y] = str.split(' ').map((s) => +s)
+
+  min = Math.min(min, (x * 1000) / y)
+}
+
+console.log(min.toFixed(2))
+```
+
+<Callout emoji='✔️'>[27160 - 할리갈리](https://www.acmicpc.net/problem/27160)</Callout>
+
+```js title="27160 - 할리갈리"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let arr = fs.readFileSync(path).toString().trim().split('\n')
+
+let obj = {
+  STRAWBERRY: 0,
+  BANANA: 0,
+  LIME: 0,
+  PLUM: 0,
+}
+
+arr.shift()
+
+for (const str of arr) {
+  const [fruit, num] = str.split(' ')
+
+  obj[fruit] += +num
+}
+
+console.log(Object.values(obj).includes(5) ? 'YES' : 'NO')
+```
+
+<Callout emoji='✔️'>[29614 - 학점계산프로그램](https://www.acmicpc.net/problem/29614)</Callout>
+
+```js title="29614 - 학점계산프로그램"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let str = fs.readFileSync(path).toString().trim()
+
+let obj = {
+  'A+': 4.5,
+  A: 4.0,
+  'B+': 3.5,
+  B: 3.0,
+  'C+': 2.5,
+  C: 2.0,
+  'D+': 1.5,
+  D: 1.0,
+  F: 0.0,
+}
+
+let arr = []
+
+for (let i = 0; i < str.length; i++) {
+  if (str[i + 1] === '+') continue
+
+  if (str[i] === '+') {
+    arr.push(str.slice(i - 1, i + 1))
+    continue
+  }
+
+  arr.push(str[i])
+}
+
+const sum = arr.reduce((prev, cur) => prev + obj[cur], 0)
+
+console.log(sum / arr.length)
+```
+
+<Callout emoji='✔️'>[13235 - 팰린드롬](https://www.acmicpc.net/problem/13235)</Callout>
+
+```js title="13235 - 팰린드롬"
+const fs = require('fs')
+const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt'
+
+let str = fs.readFileSync(path).toString().trim()
+
+console.log(str === str.split('').reverse().join(''))
+```
