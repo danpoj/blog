@@ -15,14 +15,6 @@ export default function Page() {
             >
               github
             </a>
-            <a
-              href='/resume/resume.pdf'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='underline underline-offset-4 block w-fit hover:opacity-80'
-            >
-              resume
-            </a>
           </div>
         </div>
         <div className='flex items-center gap-4'>
