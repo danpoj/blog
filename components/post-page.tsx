@@ -1,17 +1,16 @@
 'use client'
 
-import { Tier } from '@/types/types'
-import clsx from 'clsx'
+import { formatDate } from '@/utils/format-date'
 import { allPosts } from 'contentlayer/generated'
 import Link from 'next/link'
 import { useState } from 'react'
-import { BaekjoonTierBadge, tiers } from './baekjoon'
-import { formatDate } from '@/utils/format-date'
 
 export function PostPage() {
   const [value, setValue] = useState('')
 
-  const filteredPosts = allPosts.filter((post) => post.title.toLowerCase().includes(value.toLowerCase()))
+  const filteredPosts = allPosts.filter(
+    (post) => post.article === 'published' && post.title.toLowerCase().includes(value.toLowerCase())
+  )
 
   return (
     <div className='space-y-10'>

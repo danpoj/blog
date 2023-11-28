@@ -54,7 +54,7 @@ export const Post = defineDocumentType(() => ({
     },
     article: {
       type: 'enum',
-      options: ['til', 'etc'],
+      options: ['published', 'draft'],
       required: true,
     },
   },
